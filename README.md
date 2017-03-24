@@ -14,7 +14,7 @@ This speeds up `npm install` and avoids error when the remove server is offline.
 -----
 `verdaccio` is a fork of `sinopia`. It aims to keep backwards compatibility with `sinopia`, while keeping up with npm changes.
 
-`sinopia` - a private/caching npm repository server
+`verdaccio` - a private/caching npm repository server
 
 [![travis badge](http://img.shields.io/travis/verdaccio/verdaccio.svg)](https://travis-ci.org/verdaccio/verdaccio)
 
@@ -71,6 +71,15 @@ To build your own image:
 
 `docker build -t verdaccio .`
 
+There is also an npm script for building the docker image, so you can also do:
+
+`npm run build-docker`
+
+If you want to use the docker image on a rpi or a compatible device there is also a dockerfile available.
+To build the docker image for raspberry pi execute:
+
+`npm run build-docker:rpi`
+
 To run the docker container:
 
 ```
@@ -81,13 +90,19 @@ docker run -it --rm --name verdaccio -p 4873:4873 \
   verdaccio
 ```
 
+Please note that for any of the above docker commands you need to have docker installed on your machine and the docker executable should be available on your `$PATH`.
+
+### Ansible
+
+A Verdaccio playbook [is available at galaxy](https://galaxy.ansible.com/030/verdaccio) source: https://github.com/030/ansible-verdaccio
+
 ### Chef
 
-A Sinopia Chef cookbook [is available at Opscode community](http://community.opscode.com/cookbooks/sinopia) source: https://github.com/BarthV/sinopia-cookbook
+The Verdaccio Chef cookbook [is available via the chef supermarket](https://supermarket.chef.io/cookbooks/verdaccio). source: https://github.com/kgrubb/verdaccio-cookbook
 
 ### Puppet
 
-A Sinopia puppet module [is available at puppet forge](http://forge.puppetlabs.com/saheba/sinopia) source: https://github.com/saheba/puppet-sinopia
+The original Sinopia puppet module [is available at puppet forge](http://forge.puppetlabs.com/saheba/sinopia) source: https://github.com/saheba/puppet-sinopia
 
 ## Configuration
 
