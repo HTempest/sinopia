@@ -17,10 +17,14 @@ This speeds up `npm install` and avoids error when the remove server is offline.
 `verdaccio` - a private/caching npm repository server
 
 [![travis badge](http://img.shields.io/travis/verdaccio/verdaccio.svg)](https://travis-ci.org/verdaccio/verdaccio)
+[![npm version badge](https://img.shields.io/npm/v/verdaccio.svg)](https://www.npmjs.org/package/verdaccio)
+[![downloads badge](http://img.shields.io/npm/dm/verdaccio.svg)](https://www.npmjs.org/package/verdaccio)
+[![codecov](https://codecov.io/gh/verdaccio/verdaccio/branch/master/graph/badge.svg)](https://codecov.io/gh/verdaccio/verdaccio)
+[![Gitter chat](https://badges.gitter.im/verdaccio/questions.png)](https://gitter.im/verdaccio/)
 
 It allows you to have a local npm registry with zero configuration. You don't have to install and replicate an entire CouchDB database. Verdaccio keeps its own small database and, if a package doesn't exist there, it asks npmjs.org for it keeping only those packages you use.
 
-<p align="center"><img src="https://f.cloud.github.com/assets/999113/1795553/680177b2-6a1d-11e3-82e1-02193aa4e32e.png"></p>
+<p align="center"><img src="https://firebasestorage.googleapis.com/v0/b/jotadeveloper-8d2f3.appspot.com/o/verdaccio2-compressor.png?alt=media&token=c9b01824-26f2-4cba-bd6f-f352e08cb8ff"></p>
 
 ## Use cases
 
@@ -49,6 +53,9 @@ It allows you to have a local npm registry with zero configuration. You don't ha
 # installation and starting (application will create default
 # config in config.yaml you can edit later)
 $ npm install -g verdaccio
+# or 
+$ yarn add global verdaccio
+# run in your terminal
 $ verdaccio
 
 # npm configuration
@@ -60,37 +67,41 @@ $ npm set ca null
 ```
 
 Now you can navigate to [http://localhost:4873/](http://localhost:4873/) where your local packages will be listed and can be searched.
+ 
+## Configuration
+ 
+When you start a server, it auto-creates a config file.
+ 
+**For instructions on how to run Verdaccio as a service, with a nice URL or behind a proxy have a look at the [server-side configure document](wiki/server.md).**
 
 ### Docker
 
-To use the pre-built docker image:
+Below are the most commony needed informations,
+every aspect of Docker and verdaccio is [documented separately](wiki/docker.md)
+
+#### Prebuilt images
+
+To pull the latest pre-built [docker image](https://hub.docker.com/r/verdaccio/verdaccio/):
 
 `docker pull verdaccio/verdaccio`
 
-To build your own image:
+Since version 2 images for every versions are availabel as [tags](https://hub.docker.com/r/verdaccio/verdaccio/tags/).
 
-`docker build -t verdaccio .`
-
-There is also an npm script for building the docker image, so you can also do:
-
-`npm run build-docker`
-
-If you want to use the docker image on a rpi or a compatible device there is also a dockerfile available.
-To build the docker image for raspberry pi execute:
-
-`npm run build-docker:rpi`
+#### Running verdaccio using Docker
 
 To run the docker container:
-
-```
-docker run -it --rm --name verdaccio -p 4873:4873 \
-  -v /<path to verdaccio directory>/conf:/verdaccio/conf \
-  -v /<path to verdaccio directory>/storage:/verdaccio/storage \
-  -v /<path to verdaccio directory>/local_storage:/verdaccio/local_storage \
-  verdaccio
+```bash
+docker run -it --rm --name verdaccio -p 4873:4873 verdaccio/verdaccio
 ```
 
-Please note that for any of the above docker commands you need to have docker installed on your machine and the docker executable should be available on your `$PATH`.
+#### Using docker-compose
+
+1. Get the latest version of [docker-compose](https://github.com/docker/compose).
+2. Build and run the container: 
+
+```bash
+$ docker-compose up --build
+```
 
 ### Ansible
 
@@ -100,21 +111,13 @@ A Verdaccio playbook [is available at galaxy](https://galaxy.ansible.com/030/ver
 
 The Verdaccio Chef cookbook [is available via the chef supermarket](https://supermarket.chef.io/cookbooks/verdaccio). source: https://github.com/kgrubb/verdaccio-cookbook
 
-### Puppet
-
-The original Sinopia puppet module [is available at puppet forge](http://forge.puppetlabs.com/saheba/sinopia) source: https://github.com/saheba/puppet-sinopia
-
-## Configuration
-
-When you start a server, it auto-creates a config file.
-
 ## Adding a new user
 
 ```bash
 npm adduser --registry http://localhost:4873/
 ```
 
-This will prompt you for user credentials which will be saved on the Verdaccio server.
+This will prompt you for user credentials which will be saved on the `verdaccio` server.
 
 ## Using private packages
 
@@ -150,30 +153,33 @@ Verdaccio aims to support all features of a standard npm client that make sense 
 
 Basic features:
 
-- Installing packages (npm install, npm upgrade, etc.) - supported
-- Publishing packages (npm publish) - supported
+- Installing packages (npm install, npm upgrade, etc.) - **supported**
+- Publishing packages (npm publish) - **supported**
 
 Advanced package control:
 
-- Unpublishing packages (npm unpublish) - supported
-- Tagging (npm tag) - not yet supported, should be soon
+- Unpublishing packages (npm unpublish) - **supported**
+- Tagging (npm tag) - **supported**
 - Deprecation (npm deprecate) - not supported
 
 User management:
 
-- Registering new users (npm adduser {newuser}) - supported
+- Registering new users (npm adduser {newuser}) - **supported**
 - Transferring ownership (npm owner add {user} {pkg}) - not supported, verdaccio uses its own acl management system
 
 Misc stuff:
 
-- Searching (npm search) - supported in the browser client but not command line
+- Searching (npm search) - **supported** (cli / browser)
 - Starring (npm star, npm unstar) - not supported, doesn't make sense in private registry
+- Ping (npm ping) - **supported** 
 
 ## Storage
 
 No CouchDB here. This application is supposed to work with zero configuration, so filesystem is used as a storage.
 
 If you want to use a database instead, ask for it, we'll come up with some kind of a plugin system.
+
+About the storage there is a running discussion [here](https://github.com/verdaccio/verdaccio/issues?q=is%3Aissue+is%3Aopen+label%3Astorage).
 
 ## Similar existing things
 
@@ -182,4 +188,6 @@ If you want to use a database instead, ask for it, we'll come up with some kind 
 - [shadow-npm](https://github.com/dominictarr/shadow-npm), [public service](http://shadow-npm.net/) - it uses the same code as npmjs.org + service is dead
 - [gemfury](http://www.gemfury.com/l/npm-registry) and others - those are closed-source cloud services, and I'm not in a mood to trust my private code to somebody (security through obscurity yeah!)
 - npm-registry-proxy, npm-delegate, npm-proxy - those are just proxies...
+- [nexus-repository-oss](https://www.sonatype.com/nexus-repository-oss) - Repository manager that handles more than just NPM dependencies
 - Is there something else?
+- [codebox-npm](https://github.com/craftship/codebox-npm) - Serverless private npm registry using

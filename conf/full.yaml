@@ -20,6 +20,9 @@ web:
   title: DR NPM registry
   # logo: logo.png
   # template: custom.hbs
+  # tagline: "Some <b>HTML</b> enabled tagline that sits between the actual \
+#header and the list of packages. You can even add <a \
+#href=\"https://github.com\">links</a>!"
 
 auth:
   htpasswd:
@@ -55,6 +58,10 @@ uplinks:
     # this allows for HTTP Basic auth for example:
     #headers:
     #  authorization: "Basic YourBase64EncodedCredentials=="
+
+    # set this to false to prevent tarballs from this upstream
+    # to be stored in the local storage (defaults to true)
+    #cache: false
 
 packages:
   # uncomment this for packages with "local-" prefix to be available
@@ -102,6 +109,7 @@ packages:
 #https:
 #  key: path/to/server.key
 #  cert: path/to/server.crt
+#  ca: path/to/server.pem
 
 # type: file | stdout | stderr
 # level: trace | debug | info | http (default) | warn | error | fatal
@@ -134,6 +142,11 @@ notify:
   # Choose a method. Technically this will accept any HTTP
   # request method, but probably stick to GET or POST
   method: POST
+  # Only run this notification if the package name matches the regular
+  # expression
+  packagePattern: ^example-package$
+  # Any flags to be used with the regular expression
+  packagePatternFlags: i
   # If this endpoint requires specific headers, set them here
   # as an array of key: value objects.
   headers: [{'Content-type': 'application/x-www-form-urlencoded'}]
@@ -146,3 +159,24 @@ notify:
   content: ' {{ handlebar-expression }}'
   # For Slack, follow the following format:
   # content: '{ "text": "Package *{{ name }}* published to version *{{ dist-tags.latest }}*", "username": "Verdaccio", "icon_emoji": ":package:" }'
+
+  # Multiple notification endpoints can be created by specifying a collection
+  'example-package-1'
+    method: POST
+    # Only run this notification if the package name matches the regular
+    # expression
+    packagePattern: ^example-package-regex$
+    # Any flags to be used with the regular expression
+    packagePatternFlags: i
+    # If this endpoint requires specific headers, set them here
+    # as an array of key: value objects.
+    headers: [{'Content-type': 'application/x-www-form-urlencoded'}]
+    # set the URL endpoint for this call
+    endpoint: https://hooks.slack.com/...
+    # Finally, the content you will be sending in the body.
+    # This data will first be run through Handlebars to parse
+    # any Handlebar expressions. All data housed in the metadata object
+    # is available for use within the expressions.
+    content: ' {{ handlebar-expression }}'
+    # For Slack, follow the following format:
+    # content: '{ "text": "Package *{{ name }}* published to version *{{ dist-tags.latest }}*", "username": "Verdaccio", "icon_emoji": ":package:" }'

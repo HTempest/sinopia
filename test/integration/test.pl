@@ -38,7 +38,7 @@ system('npm install jju') and quit('fail');
 (`node -e 'console.log(require("jju").parse("{qwerty:123}").qwerty+456)'` =~ /579/) or quit('fail');
 
 system('npm publish ../verdaccio-test-1.2.3.tgz') and quit('fail');
-system('npm tag verdaccio-test@1.2.3 meow') and quit('fail');
+system('npm dist-tag add verdaccio-test@1.2.3 meow') and quit('fail');
 system('npm install verdaccio-test@meow') and quit('fail');
 
 (`node -e 'require("verdaccio-test")'` =~ /w==w/) or quit('fail');

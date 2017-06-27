@@ -8,9 +8,18 @@
 
 <!-- 
 	(if it applies)
-	how can I do in order to reproduce it? environment? configuration?
+	how can I do in order to reproduce it? environment? 
 -->
-	
+####  App Version:	
+<!-- 
+      Define which version the issue happens and whether previous version the behaviour is correct
+-->
+
+####  Config file:	
+<!-- 
+      Provide your config file might be really helpful. Please be aware to hide sensisive data before post.
+-->
+
 #### Additional information:
 
 <!--
@@ -23,9 +32,10 @@
  - Verdaccio terminal output
  - Windows, OS X/macOS, or Linux?:
  - Verdaccio configuration file, eg: `cat ~/.config/verdaccio/config.yaml`
+ <!-- Remove those does not apply for you -->
  - Container:
-   - [ ] I use local environment
-   - [ ] I develop / deploy using Docker.
-   - [ ] I deploy to a PaaS.
+   - I use local environment
+   - I develop / deploy using Docker.
+   - I deploy to a PaaS.
 
 #### Additional verbose log:

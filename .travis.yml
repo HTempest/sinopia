@@ -3,9 +3,7 @@ node_js:
   - '4'
   - '6'
   - '7'
+  - '8'
 sudo: false
-matrix:
-  allow_failures:
-    - node_js: 'iojs'
-  fast_finish: true
 script: npm install . && npm run test-travis
+after_success: npm run coverage:codecov && npm run coverage:codacy

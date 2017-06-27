@@ -1,2 +1,5 @@
 node_modules
 lib/static
+coverage/
+lib/GUI/
+wiki/
